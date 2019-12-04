@@ -1,0 +1,5 @@
+epoch=115
+pixAcc=0.765
+mIoU=0.368
+t_gpu=0.3373
+t_data=0.0203
