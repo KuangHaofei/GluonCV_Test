@@ -64,7 +64,7 @@ def parse_args():
     args = parser.parse_args()
 
     args.ctx = [mx.cpu(0)]
-    args.ctx = [mx.gpu(i + 4) for i in range(args.ngpus)] if args.ngpus > 0 else args.ctx
+    args.ctx = [mx.gpu(i) for i in range(args.ngpus)] if args.ngpus > 0 else args.ctx
 
     args.norm_layer = mx.gluon.contrib.nn.SyncBatchNorm if args.syncbn \
         else mx.gluon.nn.BatchNorm
@@ -106,10 +106,13 @@ def test(model_prefix, args):
         # model.hybridize()
         print("Model Type: Pre-trained model")
     else:
-        model = get_segmentation_model(model=args.model, dataset=args.dataset, ctx=args.ctx,
-                                       backbone=args.backbone, norm_layer=args.norm_layer,
-                                       norm_kwargs=args.norm_kwargs, aux=args.aux,
-                                       base_size=args.base_size, crop_size=args.crop_size)
+        # model = get_segmentation_model(model=args.model, dataset=args.dataset, ctx=args.ctx,
+        #                                backbone=args.backbone, norm_layer=args.norm_layer,
+        #                                norm_kwargs=args.norm_kwargs, aux=args.aux,
+        #                                base_size=args.base_size, crop_size=args.crop_size)
+        model = get_model(model_prefix, pretrained=False)
+        model.collect_params().reset_ctx(ctx=args.ctx)
+
         # load local pretrained weight
         assert args.resume is not None, '=> Please provide the checkpoint using --resume'
         if os.path.isfile(args.resume):
