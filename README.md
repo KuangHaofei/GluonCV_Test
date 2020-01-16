@@ -7,12 +7,19 @@
 #### PR baseline
 - machine: Ohio, haofeik_1; Testing
 - without hybridize, use 'shape'; ceil_mod = False;
-- scripts:
+- command:
   `python train.py --dataset citys --model icnet --backbone resnet50 --syncbn --ngpus 8 --checkname icnet_resnet50_citys --lr 0.01 --epochs 240 --base-size 2048 --crop-size 768 --workers 48`
 - Training : 8 * GPU; crop_size = 768; test mode = 'val'
   - pixAcc: 95.5
   - mIoU: 67.8
 - Testing : 1 * GPU; test mode = 'testval'
+  - using test_icnet.py
+  - pixAcc: 95.5
+  - mIoU: 74.8
+  - t_gpu: 36.91ms; 27 fps
+- Testing : 1 * GPU; test mode = 'testval'
+  - command:
+    `python test.py --dataset citys --model icnet --backbone resnet50 --syncbn --ngpus 1 --base-size 2048 --workers 48 --eval --resume ./runs/citys/icnet/icnet_resnet50_citys/`
   - pixAcc: 95.5
   - mIoU: 74.8
   - t_gpu: 36.91ms; 27 fps
@@ -60,7 +67,7 @@
   - pixAcc: 95.5
   - mIoU: 68.2
 - Testing : 1 * GPU; test mode = 'testval'
-  - pixAcc: 75.7
+  - pixAcc: 95.7
   - mIoU: 75.6
   - t_gpu: 36.17ms; 28 fps
 
@@ -214,5 +221,28 @@ ssh -i haofeikuang.pem -N -f -L 8888:localhost:8888 ubuntu@3.137.3.240
 
 ## Git PR
 ```
+git status  # forked
+git remote -v
+git remote add upstream https://github.com/dmlc/gluon-cv.git
 
+git remote -v
+git fetch upstream
+git merge upstream/master
+git push
+
+git checkout -b fix_segmentation_test   # new branch for PR
+# modify something
+git add test.py
+git status
+git commit -m "fixed test.py"
+git push -u origin fix_segmentation_test
+
+# if don't setup username
+git config --global user.name "Kuang Haofei"
+git config --global user.email "haofeikuang@gmail.com"
+git commit --amend
+git pull
+git push
+
+# In forked webpage, add New Pull Request
 ```
