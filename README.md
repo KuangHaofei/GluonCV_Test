@@ -2,10 +2,25 @@
 
 ## ICNet
 
+### PR
+
+#### PR baseline
+- machine: Ohio, haofeik_1; Testing
+- without hybridize, use 'shape'; ceil_mod = False;
+- scripts:
+  `python train.py --dataset citys --model icnet --backbone resnet50 --syncbn --ngpus 8 --checkname icnet_resnet50_citys --lr 0.01 --epochs 240 --base-size 2048 --crop-size 768 --workers 48`
+- Training : 8 * GPU; crop_size = 768; test mode = 'val'
+  - pixAcc: 95.5
+  - mIoU: 67.8
+- Testing : 1 * GPU; test mode = 'testval'
+  - pixAcc: 95.5
+  - mIoU: 74.8
+  - t_gpu: 36.91ms; 27 fps
+
 ### MXNet Compare Experiments
 
 #### Resnet Arch Compare
-- dilation same as Pytorch
+- dilation same as Pytorch: Ohio, haofeik_3
   - pixAcc:
   - mIoU:
   - t_gpu:  fps
@@ -15,7 +30,75 @@
   - mIoU: 74.6
   - t_gpu: 28.82 fps
 
+### Hybridize Debug
+#### Debug 2
+- machine: Ohio, haofeik_2
+- Full Hybridize
+- Training : 8 * GPU; crop_size = 768; test mode = 'val'
+  - pixAcc:
+  - mIoU:
+- Testing : 1 * GPU; test mode = 'testval'
+  - pixAcc:
+  - mIoU:
+  - t_gpu: fps
+
+#### Debug 1
+- machine: Ohio, haofeik_1
+- no Hybridize
+- Training : 8 * GPU; crop_size = 768; test mode = 'val'
+  - pixAcc: 95.5
+  - mIoU: 67.7
+- Testing : 1 * GPU; test mode = 'testval'
+  - pixAcc: 93.5
+  - mIoU: 67.8
+  - t_gpu: 38.46ms; 26 fps
+
+#### Debug baseline
+- machine: Ohio, haofeik; Finised
+- without hybridize, use 'shape'
+- Training : 8 * GPU; crop_size = 768; test mode = 'val'
+  - pixAcc: 95.5
+  - mIoU: 68.2
+- Testing : 1 * GPU; test mode = 'testval'
+  - pixAcc: 75.7
+  - mIoU: 75.6
+  - t_gpu: 36.17ms; 28 fps
+
+#### hybridize bug
+- psp:
+  ```
+  File "/home/ubuntu/workspace/gluon-cv/gluoncv/model_zoo/pspnet.py", line 52, in hybrid_forward
+    c3, c4 = self.base_forward(x)
+  File "/home/ubuntu/workspace/gluon-cv/gluoncv/model_zoo/segbase.py", line 77, in base_forward
+    x = self.conv1(x)
+  ```
+- fcn:
+  ```
+  File "/home/ubuntu/workspace/gluon-cv/gluoncv/model_zoo/fcn.py", line 57, in hybrid_forward
+    c3, c4 = self.base_forward(x)
+  File "/home/ubuntu/workspace/gluon-cv/gluoncv/model_zoo/segbase.py", line 82, in base_forward
+    x = self.layer2(x)
+  ......
+  File "/home/ubuntu/workspace/gluon-cv/gluoncv/model_zoo/resnetv1b.py", line 91, in hybrid_forward
+  out = self.relu1(out)
+  ```
+- deeplab:
+  ```
+  File "/home/ubuntu/workspace/gluon-cv/gluoncv/model_zoo/segbase.py", line 77, in base_forward
+    x = self.conv1(x)
+  ```
+
+
 ### MXNet Training & Testing Experiments
+
+#### Change to hybridize
+- Training : 8 * GPU; crop_size = 768; test mode = 'val'
+  - pixAcc: 95.4
+  - mIoU: 66.8
+- Testing : 1 * GPU; test mode = 'testval'
+  - pixAcc: 95.4
+  - mIoU: 72.6
+  - t_gpu: 37.20ms; 27 fps
 
 #### Train 2
 - machine: Ohio, haofeik_2
@@ -33,7 +116,7 @@
 - Testing : 1 * GPU; test mode = 'testval'
   - pixAcc: 95.7
   - mIoU: 74.6
-  - t_gpu: 28.82 fps
+  - t_gpu: 29 fps
 
 #### Train 1
 - machine: Ohio, haofeik_1
@@ -51,7 +134,7 @@
 - Testing : 1 * GPU; test mode = 'testval'
   - pixAcc: 95.7
   - mIoU: 74.6
-  - t_gpu: 27.85 fps
+  - t_gpu: 28 fps
 
 ### Pytorch Implementation
 https://github.com/lxtGH/Fast_Seg
@@ -60,6 +143,7 @@ https://github.com/lxtGH/Fast_Seg
 ```
 wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate "https://docs.google.com/uc?export=download&id=1A6z87_GCHEuKeZfbGpEvnkZ0POdW2Q_U" -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1A6z87_GCHEuKeZfbGpEvnkZ0POdW2Q_U" -O icnet_final.pth
 ```
+
 #### ICNet Validation
 ```
 python val.py --data_dir ~/.mxnet/datasets/citys/ --data_list ./data/cityscapes/val.txt --arch icnet --restore_from ./models/icnet_final.pth --gpu 8 --whole True
@@ -90,7 +174,7 @@ pip install --upgrade --pre mxnet-cu101mkl
 pip install Cython
 pip install pypandoc pycocotools
 cd ~/
-git clone https://github.com/hetong007/gluon-cv.git
+git clone https://github.com/KuangHaofei/gluon-cv
 cd gluon-cv
 pip install -e .
 pip install opencv-python
@@ -115,7 +199,7 @@ ssh -i haofeikuang.pem -N -f -L 8888:localhost:8888 ubuntu@3.137.3.240
 
 ## Datasets Preparation
 - Cityscape
-  - download filw
+  - download file
   ```
   https://gluon-cv.mxnet.io/build/examples_datasets/cityscapes.html
   ```
@@ -130,28 +214,5 @@ ssh -i haofeikuang.pem -N -f -L 8888:localhost:8888 ubuntu@3.137.3.240
 
 ## Git PR
 ```
-git status  # forked
-git remote -v
-git remote add upstream https://github.com/dmlc/gluon-cv.git
 
-git remote -v
-git fetch upstream
-git merge upstream/master
-git push
-
-git checkout -b fix_segmentation_test   # new branch for PR
-# modify something
-git add test.py
-git status
-git commit -m "fixed test.py"
-git push -u origin fix_segmentation_test
-
-# if don't setup username
-git config --global user.name "Kuang Haofei"
-git config --global user.email "haofeikuang@gmail.com"
-git commit --amend
-git pull
-git push
-
-# In forked webpage, add New Pull Request
 ```
