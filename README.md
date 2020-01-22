@@ -1,5 +1,19 @@
 # GluonCV_Test
 
+## Cityscapes
+
+### Issue
+
+#### machine
+- Deep Learning AMI (Ubuntu 16.04) Version 26.0
+- GPU instance p3.16xlarge; GPU: 64; memory: 488 GiB
+- conda 4.8.1
+- python: 3.6.5
+- mxnet-cu101: 1.5.1; gluoncv 0.6.0
+  - failure
+- mxnet-cu101: 1.6.0b20191122; gluoncv 0.6.0
+  -
+
 ## ICNet
 
 ### PR
