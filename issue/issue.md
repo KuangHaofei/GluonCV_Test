@@ -5,9 +5,9 @@ When using pspnet in the semantic segmentation library of gluoncv to train on Ci
 
 By the way, due to the use of the functions in Iterm2 (when idle, send ascii code 0 every 60 seconds) to keep the connection with server, so each `@` means waited 60 seconds, so the figure could show the problems clearly.
 
-![error](/assets/error.png)
+![error](./error.png)
 
-![gpu_status](/assets/gpu_status.png)
+![gpu_status](./gpu_status.png)
 
 ## Environment
 - AWS Deep Learning AMI (Ubuntu 16.04) Version 26.0
