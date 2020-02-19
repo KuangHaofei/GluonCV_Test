@@ -10,7 +10,6 @@
       - command:
         `python train.py --dataset mhp --model psp --backbone resnet50 --syncbn --ngpus 8 --checkname psp_resnet50_mhp --lr 0.001 --epochs 30 --base-size 768 --crop-size 768 --workers 48 --batch-size 16 --log-interval 1`
       - result:
-        - log example: https://drive.corp.amazon.com/view/haofeik%40/train_log_example.txt
         - Epoch 12 iteration 0035/0187: training loss 0.312; learning rate 0.000624
         - Epoch 12 iteration 0036/0187: training loss nan; learning rate 0.000624
     - icnet:
@@ -23,7 +22,10 @@
     - psp:
       - command:
         `python train.py --dataset mhp --model psp --backbone resnet50 --syncbn --ngpus 8 --checkname psp_resnet50_mhp --lr 0.0005 --epochs 30 --base-size 768 --crop-size 768 --workers 48 --batch-size 16 --log-interval 1`
-      - result:
+      - result: finished
+        - log: https://github.com/KuangHaofei/GluonCV_Test/blob/master/notes/mhp_example/train.log
+        - NaN: Epoch 18 iteration 0089/0187: training loss nan; learning rate 0.000210
+        - mIoU: 20.5
     - icnet:
       - command:
         `python train.py --dataset mhp --model icnet --backbone resnet50 --syncbn --ngpus 8 --checkname icnet_resnet50_mhp --lr 0.0005 --epochs 30 --base-size 768 --crop-size 768 --workers 48 --batch-size 16 --log-interval 1`
