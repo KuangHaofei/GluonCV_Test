@@ -34,7 +34,7 @@ jupyter notebook --certfile=~/ssl/mycert.pem --keyfile ~/ssl/mykey.key
 ```
 ```
 # client
-ssh -i haofeikuang.pem -N -f -L 8888:localhost:8888 ubuntu@3.137.3.240
+ssh -i haofeik.pem -N -f -L 8888:localhost:8888 ubuntu@52.44.104.112
 ```
 
 ## Datasets Preparation

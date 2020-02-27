@@ -1,4 +1,106 @@
-## Multi-Human Parsing
+# Multi-Human Parsing Datasets
+
+## Multi-Human Parsing v2
+
+
+## Multi-Human Parsing v1
+
+## PR 1
+- Requirements
+  ```
+  conda create --name mhp python=3.6
+  source activate mhp
+
+  pip install mxnet-cu101mkl==1.4.1
+  pip install Cython
+  pip install pypandoc pycocotools
+
+  git clone https://github.com/dmlc/gluon-cv
+  cd gluon-cv
+  pip install -e .
+  ```
+
+- Dataset Preparation: mhp_v1.py
+  - requirement:
+      `pip install html5lib googleDriveFileDownloader`
+  - usage:
+    ```
+    cd ~/gluoncv/scripts/dataset
+    python mhp_v1.py
+    ```
+
+- Dataloader
+
+- Training Step:
+  - params: icnet_resnet50; adam; lr = 0.00001; crop_size = 768; epochs = 120;
+  - command:
+    - icnet:
+      `python train.py --dataset mhp --model icnet --backbone resnet50 --syncbn --ngpus 8 --lr 0.00001 --epochs 120 --base-size 768 --crop-size 768 --workers 48 --batch-size 16 --log-interval 1`
+    - results:
+      - mIoU: 39.74 (Epoch 105)
+      - NaN: epoch 10 ~ epoch 23
+        - Epoch 10 iteration 0113/0188: training loss 1.059
+        - Epoch 10 iteration 0114/0188: training loss nan
+
+- Model
+
+### Experiment : Adam optimizer
+- parameters:
+  - crop_size = 768
+  - epochs = 120
+
+- case 1: adam; lr = 0.0005; crop_size = 768; epochs = 120
+  - command:
+    - pspnet:
+      `python train.py --dataset mhp --model psp --backbone resnet50 --syncbn --ngpus 8 --checkname psp_resnet50_mhp --lr 0.0005 --epochs 120 --base-size 768 --crop-size 768 --workers 48 --batch-size 16 --log-interval 1`
+    - icnet:
+      `python train.py --dataset mhp --model icnet --backbone resnet50 --syncbn --ngpus 8 --checkname icnet_resnet50_mhp --lr 0.0005 --epochs 120 --base-size 768 --crop-size 768 --workers 48 --batch-size 16 --log-interval 1`
+  - results:
+    - mIoU:
+      - psp: 19.36 (Epoch 0)
+      - icnet : 27.58 (Epoch 1)
+    - NaN:
+      - psp:
+        - Epoch 1 iteration 0019/0187: training loss 0.700
+        - Epoch 1 iteration 0020/0187: training loss nan
+      - icnet:
+        - Epoch 0 iteration 0024/0187: training loss 3.885
+        - Epoch 0 iteration 0025/0187: training loss nan
+
+- case 2: adam; lr = 0.0001; crop_size = 768; epochs = 120
+  - command:
+    - pspnet:
+      `python train.py --dataset mhp --model psp --backbone resnet50 --syncbn --ngpus 8 --checkname psp_resnet50_mhp --lr 0.0001 --epochs 120 --base-size 768 --crop-size 768 --workers 48 --batch-size 16 --log-interval 1`
+    - icnet:
+      `python train.py --dataset mhp --model icnet --backbone resnet50 --syncbn --ngpus 8 --checkname icnet_resnet50_mhp --lr 0.0001 --epochs 120 --base-size 768 --crop-size 768 --workers 48 --batch-size 16 --log-interval 1`
+  - results:
+    - mIoU:
+      - psp: 33.45 (Epoch 2)
+      - icnet: 35.12 (Epoch 118)
+    - NaN:
+      - psp:
+        - Epoch 3 iteration 0020/0187: training loss 0.466
+        - Epoch 3 iteration 0021/0187: training loss nan
+      - icnet:
+        - Epoch 1 iteration 0051/0187: training loss 1.428
+        - Epoch 1 iteration 0052/0187: training loss nan
+
+
+### Visualization
+- task1 : color palette
+  https://gluon-cv.mxnet.io/_modules/gluoncv/utils/viz/segmentation.html#get_color_pallete
+
+- task2 : 10 images Visualization
+  https://gluon-cv.mxnet.io/build/examples_segmentation/demo_psp.html
+
+- MHP Visualization Demo
+  - model: psp_resnet50_mhp
+  - weights: epoch_0042_mIoU_0.3424.params
+    - lr = 0.0005
+    - crop_size = 480
+    - sgd
+  - result:
+    https://github.com/KuangHaofei/gluon-cv/blob/multi-human-parsing/scripts/segmentation/visualization_demo.ipynb
 
 ### Debug Experiment 3
 - machine
