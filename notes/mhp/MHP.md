@@ -6,6 +6,12 @@
 ## Multi-Human Parsing v1
 
 ## PR 1
+- doc 1 : datasets preparation
+  - downloader time ?
+
+- doc 2 : demo
+  - pretrained model
+
 - Requirements
   ```
   conda create --name mhp python=3.6
@@ -41,8 +47,20 @@
       - NaN: epoch 10 ~ epoch 23
         - Epoch 10 iteration 0113/0188: training loss 1.059
         - Epoch 10 iteration 0114/0188: training loss nan
+      - training log: https://github.com/KuangHaofei/GluonCV_Test/blob/master/notes/mhp_pr/train.log
 
-- Model
+- Evaluations:
+  - weights: epoch_0105_mIoU_0.3974.params
+  - command:
+    `python test.py --dataset mhp --model icnet --backbone resnet50 --syncbn --ngpus 1 --workers 48 --eval --resume ./runs/mhp/icnet/resnet50/epoch_0105_mIoU_0.3974.params`
+  - results:
+    - pixAcc: 89.52
+    - mIoU: 40.41
+    - t_gpu: 49.91ms
+
+- Visualization:
+  https://github.com/KuangHaofei/gluon-cv/blob/multi-human-parsing/scripts/segmentation/visualization_demo.ipynb
+
 
 ### Experiment : Adam optimizer
 - parameters:
