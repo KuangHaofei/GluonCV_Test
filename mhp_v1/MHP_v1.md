@@ -41,7 +41,7 @@
   - params: icnet_resnet50; adam; lr = 0.00001; crop_size = 768; epochs = 120;
   - command:
     - icnet:
-      `python train.py --dataset mhp --model icnet --backbone resnet50 --syncbn --ngpus 8 --lr 0.00001 --epochs 120 --base-size 768 --crop-size 768 --workers 48 --batch-size 16 --log-interval 1`
+      `python train.py --dataset mhpv1 --model icnet --backbone resnet50 --syncbn --ngpus 8 --optimizer adam --lr 0.00001 --epochs 120 --base-size 768 --crop-size 768 --workers 48 --batch-size 16 --log-interval 1`
     - results:
       - mIoU: 39.74 (Epoch 105)
       - NaN: epoch 10 ~ epoch 23
@@ -52,7 +52,7 @@
 - Evaluations:
   - weights: epoch_0105_mIoU_0.3974.params
   - command:
-    `python test.py --dataset mhp --model icnet --backbone resnet50 --syncbn --ngpus 1 --workers 48 --eval --resume ./runs/mhp/icnet/resnet50/epoch_0105_mIoU_0.3974.params`
+    `python test.py --dataset mhpv1 --model icnet --backbone resnet50 --syncbn --ngpus 1 --workers 48 --eval --resume ./runs/mhp/icnet/resnet50/epoch_0105_mIoU_0.3974.params`
   - results:
     - pixAcc: 89.52
     - mIoU: 40.41
