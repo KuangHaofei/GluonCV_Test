@@ -16,6 +16,20 @@
 
 ### PR
 
+#### New version of Cityscapes
+- training
+  - command:
+    `python train.py --dataset citys --model icnet --backbone resnet50 --syncbn --ngpus 8 --lr 0.01 --epochs 240 --base-size 2048 --crop-size 768 --workers 48`
+  - results:
+    - best mIoU: 67.12 (Epoch 193)
+- testing:
+  - command:
+    `python test.py --dataset citys --model icnet --backbone resnet50 --syncbn --ngpus 1 --base-size 2048 --workers 48 --eval --resume ./runs/icnet_resnet50_citys.params`
+  - results:
+    - pixAcc: 95.23
+    - mIoU: 74.14
+    - t_gpu: 36.47ms
+
 #### PR baseline
 - machine: Ohio, haofeik_1; Testing
 - without hybridize, use 'shape'; ceil_mod = False;
@@ -24,11 +38,7 @@
 - Training : 8 * GPU; crop_size = 768; test mode = 'val'
   - pixAcc: 95.5
   - mIoU: 67.8
-- Testing : 1 * GPU; test mode = 'testval'
-  - using test_icnet.py
-  - pixAcc: 95.5
-  - mIoU: 74.8
-  - t_gpu: 36.91ms; 27 fps
+
 - Testing : 1 * GPU; test mode = 'testval'
   - command:
     `python test.py --dataset citys --model icnet --backbone resnet50 --syncbn --ngpus 1 --base-size 2048 --workers 48 --eval --resume ./runs/citys/icnet/icnet_resnet50_citys/`
