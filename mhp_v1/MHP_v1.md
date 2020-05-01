@@ -1,11 +1,34 @@
 # Multi-Human Parsing Datasets
 
-## Multi-Human Parsing v2
+## PSP Model Experiments
+
+- machine: haofeik_3 : 18.219.86.155
+
+### PSP50
+- Training Step:
+  - params: psp_resnet50; adam; lr = 0.00001; crop_size = 768; epochs = 120;
+  - command:
+    - icnet:
+      `python train.py --dataset mhpv1 --model psp --backbone resnet50 --syncbn --ngpus 8 --optimizer adam --lr 0.00001 --epochs 120 --base-size 768 --crop-size 768 --workers 48 --batch-size 16 --log-interval 1`
+    - results:
+      - mIoU:
+      - NaN:
+      - training log:
+
+- Evaluations:
+  - weights:
+  - command:
+    `python test.py --dataset mhpv1 --model psp --backbone resnet50 --syncbn --ngpus 1 --workers 48 --eval --resume ./runs/mhp/icnet/resnet50/epoch_0105_mIoU_0.3974.params`
+  - results:
+    - pixAcc:
+    - mIoU:
+    - t_gpu:
+
 
 
 ## Multi-Human Parsing v1
 
-## PR 1
+### PR 1
 - doc 1 : datasets preparation
   - downloader time ?
 
@@ -28,7 +51,7 @@
 
 - Dataset Preparation: mhp_v1.py
   - requirement:
-      `pip install html5lib googleDriveFileDownloader`
+    `pip install html5lib googleDriveFileDownloader`
   - usage:
     ```
     cd ~/gluoncv/scripts/dataset

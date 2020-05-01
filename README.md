@@ -34,7 +34,15 @@ jupyter notebook --certfile=~/ssl/mycert.pem --keyfile ~/ssl/mykey.key
 ```
 ```
 # client
-ssh -i haofeik.pem -N -f -L 8888:localhost:8888 ubuntu@52.44.104.112
+ssh -i haofeik.pem -N -f -L 8888:localhost:8888 ubuntu@3.137.3.240
+```
+```
+# problems:
+# The 'kernel_spec_manager_class' trait of <notebook.notebookapp.NotebookApp object
+# at 0x7f1799bd5590> instance must be a type, but
+# 'environment_kernels.EnvironmentKernelSpecManager' could not be imported
+
+pip install environment_kernels
 ```
 
 ## Datasets Preparation
