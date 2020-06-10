@@ -3,7 +3,7 @@
 ## AWS Initialize
 - Login
 ```
-ssh -i haofeik.pem ubuntu@3.137.3.240
+ssh -i haofeik.pem ubuntu@52.22.213.132
 source activate mxnet_p36
 ```
 ```
@@ -22,9 +22,15 @@ git config --global user.name "Kuang Haofei"
 git config --global user.email "haofeikuang@gmail.com"
 ```
 
+## AWS Operations
+- Generate public key form .pem file
+```
+openssl rsa -pubout -in haofeik.pem
+```
+
 - Mount
 ```
-sudo sshfs -C -o reconnect ubuntu@3.137.3.240:/home/ubuntu/workspace ~/Desktop/remote/ -o IdentityFile=~/haofeikuang.pem -o allow_other
+sudo sshfs -C -o reconnect ubuntu@52.22.213.132:/home/ubuntu/workspace ~/Desktop/remote/ -o IdentityFile=~/haofeikuang.pem -o allow_other
 ```
 
 - Jupyter Notebook
@@ -34,7 +40,7 @@ jupyter notebook --certfile=~/ssl/mycert.pem --keyfile ~/ssl/mykey.key
 ```
 ```
 # client
-ssh -i haofeik.pem -N -f -L 8888:localhost:8888 ubuntu@3.137.3.240
+ssh -i haofeik.pem -N -f -L 8888:localhost:8888 ubuntu@52.22.213.132
 ```
 ```
 # problems:
