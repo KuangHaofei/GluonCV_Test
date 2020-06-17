@@ -7,7 +7,6 @@ import mxnet as mx
 from mxnet import nd
 from gluoncv.model_zoo import monodepthv2
 
-
 # get torch weight
 pt_model_encoder_path = './mono+stereo_640x192/encoder.pth'
 pt_model_decoder_path = './mono+stereo_640x192/depth.pth'
@@ -63,7 +62,7 @@ for key in pt_encoder_params.keys():
 mx_resnet_keys = list(mx_encoder_params.keys())
 
 # for i in range(len(mx_resnet_keys)):
-    # print(pt_resnet_keys[i], '\t', mx_resnet_keys[i])
+# print(pt_resnet_keys[i], '\t', mx_resnet_keys[i])
 # exit()
 
 ######## decoder ########
@@ -102,6 +101,7 @@ for i in range(len(mx_decoder_keys)):
 
 print('loaded decoder weights')
 
+
 # testing
 # tmp_input = mx.ndarray.ones((16,3,192,640))
 # mx_encoder.summary(tmp_input.as_in_context(context))
@@ -113,25 +113,27 @@ def _AssertTensorClose(a, b, atol=1e-3, rtol=1e-3):
         'Tensor close check failed\n{}\n{}\nadiff={}, rdiff={}'.format(
             a, b, np.abs(npa - npb).max(), np.abs((npa - npb) / np.fmax(npa, 1e-5)).max())
 
+
 ######################## Testing ########################
 # # encoder weights transfer test
-tx = torch.rand((16, 3, 192, 640))
-ty = pt_encoder(tx)
+pt_x = torch.rand((16, 3, 192, 640))
+pt_y = pt_encoder(pt_x)
 
-mx = mx.nd.array(tx.data.numpy())
-my = mx_encoder(mx)
-# for i in range(len(ty)):
-#     print(ty[i].shape, '\t', my[i].shape)
-#     _AssertTensorClose(ty[i], my[i])
-#
-# # decoder weights transfer test
-tz = pt_decoder(ty)
-mz = mx_decoder(my)
-#
-# for key in tz.keys():
-#     print(tz[key].shape, '\t', mz[key].shape)
-#     _AssertTensorClose(tz[key], mz[key])
+mx_x = mx.nd.array(pt_x.data.numpy())
+mx_y = mx_encoder(mx_x)
 
+for i in range(len(pt_y)):
+    print(pt_y[i].shape, '\t', mx_y[i].shape)
+    _AssertTensorClose(pt_y[i], mx_y[i])
+
+# decoder weights transfer test
+pt_z = pt_decoder(pt_y)
+mx_z = mx_decoder(mx_y)
+
+for key in pt_z.keys():
+    print(pt_z[key].shape, '\t', mx_z[key].shape)
+    _AssertTensorClose(pt_z[key], mx_z[key])
+exit()
 ######################## Save model ########################
 mx_encoder.save_parameters('./mx_mono+stereo_640x192/encoder.params')
 mx_decoder.save_parameters('./mx_mono+stereo_640x192/depth.params')
