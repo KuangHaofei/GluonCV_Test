@@ -146,6 +146,8 @@ encoder.layer4.1.bn2.num_batches_tracked
 ## end
 encoder.fc.weight
 encoder.fc.bias
+
+# other
 height
 width
 use_stereo
