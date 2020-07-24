@@ -3,5 +3,6 @@ __pycache__
 
 .DS_Store
 .idea
+.ipynb_checkpoints
 
 /monodepthv2/weights/mono+stereo_640x192*
