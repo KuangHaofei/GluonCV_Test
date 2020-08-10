@@ -5,4 +5,4 @@ __pycache__
 .idea
 .ipynb_checkpoints
 
-/monodepthv2/weights/mono+stereo_640x192*
+/monodepthv2/weights/weights
