@@ -4,8 +4,8 @@ import mxnet as mx
 
 
 if __name__ == '__main__':
-    epoch0_depth_path = '../weights/mono_debug/epoch0_depth.params'
-    epoch10_depth_path = '../weights/mono_debug/epoch10_depth.params'
+    epoch0_depth_path = '../weights/mono_debug/epoch5_depth.params'
+    epoch10_depth_path = '../weights/mono_debug/epoch19_depth.params'
 
     epoch0_depth = mx.nd.load(epoch0_depth_path)
     epoch10_depth = mx.nd.load(epoch10_depth_path)
@@ -24,8 +24,8 @@ if __name__ == '__main__':
 
     print("depth weights diff: ", diff)
 
-    epoch0_pose_path = '../weights/mono_debug/epoch0_pose.params'
-    epoch10_pose_path = '../weights/mono_debug/epoch10_pose.params'
+    epoch0_pose_path = '../weights/mono_debug/epoch5_pose.params'
+    epoch10_pose_path = '../weights/mono_debug/epoch19_pose.params'
 
     epoch0_pose = mx.nd.load(epoch0_pose_path)
     epoch10_pose = mx.nd.load(epoch10_pose_path)
